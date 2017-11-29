@@ -34,6 +34,9 @@
 <script type="text/ecmascript-6">
     import charts from '../charts/charts';
     export default {
+        /**
+         * 图表  chart 图表配置，id唯一，高度宽度自定义，使用flex布局，超出宽度自动换行
+         */
         data() {
             return {
                 activeName: 'one',
@@ -114,7 +117,8 @@
                                 smooth: true,
                                 data: [
                                     [0, 30], //数据
-                                    [5, 15]
+                                    [3, 40], //数据
+                                    [5, 65]
                                 ]
                             },
                             {
@@ -123,7 +127,8 @@
                                 smooth: true,
                                 data: [
                                     [0, 40],
-                                    [5, 20]
+                                    [5, 20],
+                                    [7, 50],
                                 ]
                             }
                         ]

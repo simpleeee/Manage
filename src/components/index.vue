@@ -4,7 +4,7 @@
       <el-header class="header">
         <el-row :gutter="1">
         <el-col :span="18">
-          <div class="grid-content bg-purple"><h1><span>Logo</span>姜葱蒜</h1></div>
+          <div class="grid-content bg-purple"><h1 style="display:inline-block;cursor: pointer;" @click="jump"><span>Logo</span>姜葱蒜</h1></div>
         </el-col>
         <el-col :span="6">
           <div class="grid-content bg-red">
@@ -125,6 +125,9 @@
          this.$store.commit('userlogout');
          this.$message({showClose: true, message: '登录异常，请重新登录！',type: 'warning'});
          this.$router.push({path:'/login'});
+      },
+      jump(){
+        this.$router.push({path:'/home'});
       }
     },
     watch:{

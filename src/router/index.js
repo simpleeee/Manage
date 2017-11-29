@@ -16,7 +16,6 @@ const routes=[{
       path:'/home',
       component:resolve=>require(['@/components/home/home'],resolve)
     },
-
   ]
   },
   {
