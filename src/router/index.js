@@ -9,10 +9,12 @@ const routes=[{
   component:index,
   redirect:"/home",
   children:[
-    {
-      path:'/account',
+    //账号列表
+    {       
+      path:'/account/:page',
       component:resolve=>require(['@/components/account/account'],resolve)
     },{
+    //首页
       path:'/home',
       component:resolve=>require(['@/components/home/home'],resolve)
     },

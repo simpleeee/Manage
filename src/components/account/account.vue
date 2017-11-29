@@ -1,8 +1,24 @@
 <template>
     <el-container class="account">
-        <el-header>Header</el-header>
+        <el-header>
+            <el-row type="flex" justify="space-between">
+                <el-col :span="3">
+                    <div class="grid-content">
+                         <el-input v-model="srarch" @keyup.enter.native="doSraech" placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
+                    </div>
+                </el-col>
+               <el-col :span="3">
+                    <div class="grid-content">
+                         <router-link to="#" class="btn-add">
+                             <i class="el-icon-plus"></i>
+                             添加账号
+                         </router-link>
+                    </div>
+                </el-col>
+            </el-row>
+        </el-header>
         <el-main>
-            <tablecontent :tableData="tableData" :tableHead="tableHead" :tabSet="tabSet" @childclick="childclick" @tableSet="tableSet"></tablecontent>
+            <tablecontent :tableData="tableData" :tableHead="tableHead" :tabSet="tabSet" @childclick="childclick" @tableSet="tableSet" @handleCurrentChange="handleCurrentChange"></tablecontent>
         </el-main>
     </el-container>
 </template>
@@ -12,6 +28,7 @@ import tablecontent from "../table/table"
  export default {
  data() {
  return {
+     srarch:'',
      tabSet:[
          {
              lable:'编辑',
@@ -63,12 +80,18 @@ import tablecontent from "../table/table"
 
  },
  methods:{
-     childclick(data){
+     childclick(data){//操作栏 
         if(data.column.label==='操作') return;
         console.log(1);
      },
-     tableSet(data){
+     tableSet(data){ //单元格 
         console.log(2);
+     },
+     handleCurrentChange(val){//分页 
+         console.log(`当前页码:${val}`)
+     },
+     doSraech(){//搜索
+        console.log('触发搜索')
      }
  },
  components: {
@@ -78,8 +101,12 @@ import tablecontent from "../table/table"
 </script>
 
 <style scoped lang="less">
+ @import url("../../assets/css/public");
 .account{
-    .el-header{background: #fff}
+    .el-header{background: #fff;margin-bottom:10px;
+    .el-row{margin-top: 10px};
+    .btn-add{display: block;width: 100%;height: 40px;line-height: 40px;background: @Scendcolor;text-align: center;.a-init;color: #fff;}
+    }
     .el-main{background: #fff}
 }
 </style>

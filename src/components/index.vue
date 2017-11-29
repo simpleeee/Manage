@@ -58,7 +58,7 @@
         open:[''],
         navs:[
           {icon:"icon-tie",title:"账号管理",open:false,children:[
-            {title:"账号列表",url:"/account"},
+            {title:"账号列表",url:"/account/1"},
             {title:"冻结列表",url:"/account-ban"},
             {title:"身份权限",url:"/access"},
             ]
@@ -106,6 +106,7 @@
         console.log('退出登录')
       },
       logState(){
+        // 登录拦截 暂时不用
         // let lo=JSON.parse(localStorage.getItem('userinfo'));
         //  if(!this.$store.state.userInfo.token&&!("token" in lo)){   //判断token是否存在
         //     this.$message({showClose: true, message: '登录异常，请重新登录！',type: 'warning'});
