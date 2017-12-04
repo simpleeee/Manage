@@ -36,8 +36,8 @@
 <script type="text/ecmascript-6">
  import {mapActions} from 'vuex'
 
-import http from "../../api/server"
-import ApiSetting from "../../api/api"
+// import http from "../../api/server"
+// import ApiSetting from "../../api/api"
 
  export default {
  data() {
@@ -58,16 +58,11 @@ import ApiSetting from "../../api/api"
              return;
          }
          this.btnType.loading=true;
-          http(ApiSetting.login,this.info).then(res=>{
-            console.log(res)
-            // this.btnType.loading=false;
+         this.$http(this.$ApiSetting.login,this.info).then(res=>{
+
             this.$store.commit('userlogin',res.data);
             this.$message({showClose: true, message: '登录成功',type: 'success'});
             this.$router.push({path:'/home'});
-
-        },error=>{
-            this.$message({showClose: true, message: '登录失败',type: 'error'});
-            console.log(error);
 
         })
      }

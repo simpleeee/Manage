@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" v-loading.fullscreen.lock="this.$store.state.fullscreenLoading">
     <el-container>
       <el-header class="header">
         <el-row :gutter="1">
@@ -10,7 +10,7 @@
           <div class="grid-content bg-red">
             <div class="log-out" title="退出登录">【退出】</div>
             <div class="user-name">小小小小小葱</div>
-            <div class="user-head" :style="'background-image:url('+headimg+')'" title="个人中心"></div>
+            <div class="user-head" :style="'background-image:url('+headimg+')'" @click="usercenter"  title="个人中心"></div>
           </div>
         </el-col>
 </el-row>
@@ -18,7 +18,7 @@
       <el-container>
         <el-aside width="200px">
           <!-- 导航菜单 -->
-          <el-menu :default-active="$route.path" class="el-menu-vertical-demo nav-bar" @open="handleOpen" background-color="#363636" text-color="#@Scendcolor" active-text-color="#363636" :unique-opened='true' :default-openeds="open">
+          <el-menu :default-active="activeIndex" class="el-menu-vertical-demo nav-bar" @open="handleOpen" background-color="#363636" text-color="#@Scendcolor" active-text-color="#363636" :unique-opened='true' :default-openeds="open">
 
             <el-submenu v-for="(nav,index) in navs" :key="index" :index="index+''">
               <template slot="title">
@@ -56,9 +56,10 @@
       return {
         headimg:headimg,
         open:[''],
+        activeIndex:'/',
         navs:[
           {icon:"icon-tie",title:"账号管理",open:false,children:[
-            {title:"账号列表",url:"/account/1"},
+            {title:"账号列表",url:"/account"},
             {title:"冻结列表",url:"/account-ban"},
             {title:"身份权限",url:"/access"},
             ]
@@ -129,16 +130,29 @@
       },
       jump(){
         this.$router.push({path:'/home'});
-      }
+      },
+      usercenter(){
+         this.$router.push({path:'/adduser/0'});
+      },
+
+      activedMenu() {
+        let active=this.$route.path.split('/')[1];
+       this.activeIndex='/'+active;
+  }
     },
     watch:{
       '$route'(to,from){
+        this.activeIndex=to.path
         this.logState();
+        this.activedMenu();
       }
     },
     created(){
         this.logState();
-    }
+         this.activedMenu();
+     
+       
+    },
   }
 </script>
 

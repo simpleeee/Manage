@@ -1,8 +1,9 @@
 <template>
 <div class="tab-content">
-<el-table :data="tableData" stripe style="width: 100%" @cell-click="cellClick">
-                <el-table-column v-for="(head,index) in tableHead" :key="index" :prop="head.prop" :label="head.label" :width="head.width"></el-table-column>
-                <el-table-column fixed="right" label="操作" width="">
+<el-table :data="tableData" stripe style="width: 100%" @cell-click="cellClick" :cell-class-name="cellClassName">
+                <el-table-column v-for="(head,index) in tableHead" :key="index" :prop="head.prop" :label="head.label" :width="head.width" :show-overflow-tooltip="true"></el-table-column>
+
+                <el-table-column fixed="right" label="操作">
                         <template slot-scope="scope">
                             <el-button v-for="(tab,index) in tabSet" :key="index" @click="deleteRow(scope.$index, scope.row,index)" type="text" size="small">{{tab.lable}}</el-button>
                         </template>
@@ -10,28 +11,29 @@
 </el-table>
     
  <div class="block" style="text-align: center;margin-top:30px">
-  <el-pagination
-      @current-change="handleCurrentChange"
-      :current-page.sync="currentPage"
-      :page-size="100"
-      layout="total, prev, pager, next,jumper"
-      :total="1000"
-      >
-    </el-pagination>
+  <el-pagination @current-change="handleCurrentChange" :current-page.sync="page.currentPage" :page-size="page.pageSize" layout="total, prev, pager, next,jumper" :page-count="page.pageContent"> </el-pagination>
 </div>
 </div>
 
 </template>
 <script type="text/ecmascript-6">
  export default {
- props:['tableData','tableHead','tabSet'],    
+ props:['tableData','tableHead','tabSet','page'],    
  data() {
  return {
-currentPage: 1,
+    currentPage: 1,
  }
 
  },
  methods:{
+      cellClassName({row, column, rowIndex, columnIndex}){
+        try{
+          return this.tableHead[columnIndex].classStyle;
+        }catch(err){
+          return '';
+        }
+      
+      },
      deleteRow(index,row,id){//操作栏事件
        let msg={index:index,row:row,id:id}
        this.$emit('tableSet',msg);
@@ -50,7 +52,6 @@ currentPage: 1,
  }
 </script>
 
-<style scoped lang="">
+<style>
 
- 
 </style>

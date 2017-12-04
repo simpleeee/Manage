@@ -7,13 +7,21 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+import http from "./api/server"
+import ApiSetting from "./api/api"
 
 import Vuex from 'vuex';
 import store from './store/store.js';
 
+Vue.prototype.$http=http;
+Vue.prototype.$ApiSetting=ApiSetting;
+
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
 
+
+
+// console.log(Vue.$ApiSetting);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

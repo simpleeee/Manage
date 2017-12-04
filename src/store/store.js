@@ -7,11 +7,16 @@ import getters from './getter'
 Vue.use(Vuex);   //引用vuex
 
 const state={
+    fullscreenLoading:false,
     userInfo:{
         id:0,
         level:0,//权限等级
         token:""
     },
+    userClass:[
+
+    ],
+    userLeader:[]
 };
 const mutations={
     userlogin(state,value){
@@ -25,6 +30,12 @@ const mutations={
             token:""
         }
         localStorage.setItem('userinfo',JSON.stringify(state.userInfo));
+    },
+    setuserclass(state,value){
+        state.userClass=value;  
+    },
+    setLeader(state,value){
+        state.userLeader=value;  
     }
 };
 
