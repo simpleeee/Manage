@@ -43,6 +43,7 @@
                     prop: 'name',
                     label: '昵称',
                     width: '',
+                    classStyle:'pont'
                 }, {
                     prop: 'userlevel',
                     label: '用户等级',
@@ -99,9 +100,9 @@
                 if (data.column.label === '操作') return;
                 let id = 0;
                 if (data.column.label == '昵称') {
-                    id = parseInt(data.row.id)
+                    id = parseInt(data.row.id);
+                   this.$router.push({path: '/user-info/'+id+'/user-video/leitai/1'})  
                 }
-                console.log(data.column)
                 
             },
             tableSet(data) { // 操作栏 
@@ -110,23 +111,18 @@
                     case 0:
                         let accessid = data.row.id;
                          const h = this.$createElement;
-                        let text = h('p', ['正在对 ', h('span', {
-                            style: 'color: red'
-                        }, data.row.name), ' 执行冻结操作，您确定吗']);
-                        this.$confirm(text, '操作提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            //确认
-                            this.$store.state.fullscreenLoading = true;
-                            this.$http(this.$ApiSetting.ban, {
-                                banid: data.row.id
-                            }).then(res => {
-                                //  只有成功状态码回到这里！！  不成功的可以再server.js进行拦截！！
-                                this.$store.state.fullscreenLoading = false;
-                                this.$message({type: 'success',message: '已冻结!'});
-                                this.tableData.splice(data.index, 1); //冻结
+                       
+                        this.$prompt('请输入冻结原因', '操作提示', { confirmButtonText: '确定',cancelButtonText: '取消',inputPattern: /\S/,
+                            inputErrorMessage: '请输入冻结原因',}).then(({value}) => {
+                            let data = {
+                                 id:accessid,//当前行id
+                                 value:value
+                             }
+                            this.loading=true;
+                            this.pageInit(data,res=>{
+                                this.loading=false;
+                                this.$message({type: 'success',message: '冻结成功'});
+                                this.tableData.splice(data.index, 1); //驳回移出当前数据
                             })
                         }).catch(() => {
                             //取消

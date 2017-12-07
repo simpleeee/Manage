@@ -1,5 +1,5 @@
 @import url("./public"); 
-.red{color: red}
+.red{color: @Scendcolor}
 * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -44,4 +44,50 @@
     .el-main {
         background: #fff
     };
+}
+.search-add{display: flex;display: -webkit-flex;line-height: 40px;
+.add-new{display: block;background: #eb3a11;color: #fff;padding: 0 12px;margin-left: 10px;border-radius: 4px;font-size: 20px}
+}
+.home-page {
+    .el-header {
+        background: #fff
+    }
+    .el-main {
+        background: #fff
+    }
+    .grid-content {
+        line-height: 60px
+    }
+    .el-tabs__item {
+        font-size: 20px
+    }
+    .el-tabs__item.is-active,
+    .el-tabs__item:hover,
+    .el-tabs__item:focus,
+    .el-tabs__item:focus:active {
+        color: @Scendcolor
+    }
+    .el-tabs__nav-wrap::after,
+    .el-tabs__active-bar {
+        visibility: hidden
+    }
+    .el-tabs__item {}
+}
+
+.adduser{
+    .el-header,.el-main{background: #fff}
+    .el-header .title{line-height: 60px;
+    .el-breadcrumb__inner{cursor: pointer}
+    }
+    .input-box{
+        display: table;
+        width: 100%;
+        margin-bottom: 20px;
+        position: relative;
+        // label{width: 100px}
+        .el-select,.el-input{width: 70%}
+        // .add-new-user
+        label,input,.add-new-user{display: table-cell}
+        .add-new-class{position: absolute;right: 7%;top: 0}
+    }
 }

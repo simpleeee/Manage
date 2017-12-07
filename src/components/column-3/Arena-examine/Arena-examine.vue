@@ -2,16 +2,27 @@
     <el-container class="account" v-loading="loading">
         <el-header>
             <el-row type="flex" justify="space-between">
-                <el-col :span="3">
-                    <div class="grid-content">
+                <el-col :span="4">
+                    <div class="grid-content search-add">
                         <el-input v-model="search" @keyup.enter.native="doSraech" placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
+                        <router-link class="add-new" to=""><i class="el-icon-plus"></i></router-link>
                     </div>
                 </el-col>
-                <el-col :span="3">
+                <el-col :span="6">
                     <div class="grid-content">
-                        <router-link to="/adduser/add" class="btn-add">
-                            <i class="el-icon-plus"></i> 添加账号
-                        </router-link>
+                        <el-row class="sc-row">
+                            <el-col :span='11'>
+                                <el-select v-model="value.start" placeholder="请选择">
+                                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+                                </el-select>
+                            </el-col>
+                            <el-col :span='2' class="textc">至</el-col>
+                            <el-col :span='11'>
+                                <el-select v-model="value.end" placeholder="请选择" @change="selectChange">
+                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+                                </el-select>
+                            </el-col>
+                        </el-row>
                     </div>
                 </el-col>
             </el-row>
@@ -27,121 +38,107 @@
     export default {
         data() {
             return {
-                routerPath: '/account/',//账号列表
+                routerPath: '/Arena-examine/', //待审列表
                 loading: false,
                 search: '',
                 tabSet: [{
-                        lable: '编辑',
+                        lable: '通过',
                     },
                     {
-                        lable: '权限',
-                    },
-                    {
-                        lable: '冻结',
+                        lable: '驳回',
                     }
                 ],
                 tableHead: [{
                     prop: 'id',
-                    label: '账号ID',
+                    label: '话题ID',
+                    width: '',
+                }, {
+                    prop: 'content',
+                    label: '话题内容',
                     width: '',
                 }, {
                     prop: 'name',
-                    label: '姓名',
+                    label: '发起者',
                     width: '',
-                    classStyle:'pont'
                 }, {
                     prop: 'juese',
                     label: '身份角色',
-                    width: '',
+                    width: ''
                 }, {
-                    prop: 'creater',
-                    label: '创建者',
-                    width: '',
-                    classStyle:'pont'
+                    prop: 'createtime',
+                    label: '申请时间',
+                    width: ''
                 }, {
-                    prop: 'createdate',
-                    label: '创建时间',
-                    width: '',
-                }, {
-                    prop: 'tel',
-                    label: '联系电话',
-                    width: '',
-                }, ],
+                    prop: 'state',
+                    label: '状态',
+                    width: ''
+                }],
                 tableData: [
-                    //  {
-                    //   id: '1',
-                    //   name: '王小虎',
-                    //   juese:'部门主管',
-                    //   creater:'小看',
-                    //   createrid:'999',
-                    //   createdate:'2017-10-10 12:10',
-                    //   tel:'13588998899',
-                    // },
-
                 ],
                 page: {
                     pageContent: 1, //总页数
                     currentPage: 1, //当前页
                     pageSize: 10 //每页条数
                 },
+                options: [{
+                    value: '2017年1月',
+                    label: '2017年1月'
+                }, {
+                    value: '2月',
+                    label: '2月'
+                }],
+                options2: [{
+                    value: '2018年1月',
+                    label: '2018年1月'
+                }, {
+                    value: '2月',
+                    label: '2月'
+                }],
+                value: {
+                    start: '2017年1月',
+                    end: '2018年1月'
+                }
             }
         },
         methods: {
             childclick(data) { // 单元格
                 if (data.column.label === '操作') return;
                 let id = 0;
-                if (data.column.label == '姓名') {
-                    id = parseInt(data.row.id);
-                    this.$router.push({path: '/account-con/' + id+'/1'})
-                } else if (data.column.label == '创建者') {
-                    id = parseInt(data.row.createrid)
-                    this.$router.push({path: '/account-con/' + id+'/1'})
+                if (data.column.label == '发起者') {
+                    id = parseInt(data.row.userid)  //获取当前发起者ID
+                    console.log(data.row.userid)
                 }
-               
+                
             },
             tableSet(data) { // 操作栏 
                 let id = parseInt(data.id)
-                let userid = data.row.id;
+                let accessid = data.row.id;
                 switch (id) {
-                    case 0:
-                        this.$router.push({
-                            path: '/adduser/' + userid
-                        }); //编辑
-                        break;
-                    case 1:
-                        this.$router.push({
-                            path: '/edituser/' + userid
-                        }); //修改权限
-                        break;
-                    case 2:
-                        // console.log(data.row.id)
-                        const h = this.$createElement;
-                        let text = h('p', ['正在对 ', h('span', {
-                            style: 'color: red'
-                        }, data.row.name), ' 执行冻结操作，您确定吗']);
-                        this.$confirm(text, '操作提示', {
+                    case 0: //通过
+
+                    break;
+                    case 1:  //驳回
+                      this.$prompt('驳回原因', '', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            //确认
-                            this.$store.state.fullscreenLoading = true;
-                            this.$http(this.$ApiSetting.ban, {
-                                banid: data.row.id
-                            }).then(res => {
-                                //  只有成功状态码回到这里！！  不成功的可以再server.js进行拦截！！
-                                this.$store.state.fullscreenLoading = false;
-                                this.$message({
-                                    type: 'success',
-                                    message: '已冻结!'
-                                });
-                                this.tableData.splice(data.index, 1); //冻结
+                            inputPattern: /\S/,
+                            inputErrorMessage: '请输入驳回原因',
+                        }).then(({value}) => {
+                             let data = {
+                                 id:accessid,//当前行id
+                                 value:value
+                             }
+                            this.loading=true;
+                            this.pageInit(data,res=>{
+                                this.loading=false;
+                                this.$message({type: 'success',message: '已驳回'});
+                                this.tableData.splice(data.index, 1); //驳回移出当前数据
                             })
+                            
                         }).catch(() => {
-                            //取消
                             this.$message({
-                                type: 'error',
-                                message: '已取消冻结'
+                                type: 'info',
+                                message: '取消操作'
                             });
                         });
                         break;
@@ -163,7 +160,16 @@
                     path: this.routerPath + 1 + '/' + this.search
                 })
             },
-            pageInit(data, callback, setting = this.$ApiSetting.getUser) { //获取信息
+            selectChange() { //时间选择
+                // let data = {
+                //     search: this.search,
+                //     page: 1,
+                //     value:this.value
+                // }
+                // this.pageInit(data,res=>{});
+                // console.log(this.value)
+            },
+            pageInit(data, callback, setting = this.$ApiSetting.getArenaExamine) { // ajax获取信息
                 this.loading = true;
                 this.$http(setting, data).then(res => {
                     this.tableData = res.data.list;
@@ -176,7 +182,7 @@
             tablecontent: tablecontent
         },
         created() {
-            //数据初始化
+            //数据初始化 根据路由参数获取页面信息
             this.page.currentPage = parseInt(this.$route.params.page);
             // console.log(this.$route.params.page)
             if (this.$route.params.page == undefined) {
@@ -211,5 +217,14 @@
 </script>
 
 <style lang="less">
-
+    .redx {
+        color: red
+    }
+    .textc {
+        text-align: center;
+        line-height: 40px
+    }
+    .account .el-header .el-row.sc-row {
+        margin-top: 0
+    }
 </style>

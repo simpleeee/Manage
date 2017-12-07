@@ -72,18 +72,20 @@
             ]
           },
           {icon:"icon-leitai",title:"擂台管理",children:[
-            {title:"擂台管理",url:"/Arena"},
+            {title:"栏目分析",url:"/Arena"},
             {title:"待审列表",url:"/Arena-examine"},
             {title:"禁止列表",url:"/Arena-ban"},
-            {title:"话题列表",url:"/Arena-speack"},
+            {title:"话题列表",url:"/Arena-topic"},
             {title:"视频审核",url:"/Arena-video"},]
           },
           {icon:"icon-wulindahui",title:"武林管理",children:[
-            {title:"主题列表",url:"/wulin"},
+            {title:"栏目分析",url:"/wulin"},
+            {title:"主题列表",url:"/wulin-list"},
             {title:"禁止列表",url:"/wulin-ban"},
             {title:"视频审核",url:"/wulin-video"}]
           },
           {icon:"icon-yun",title:"风云管理",children:[
+            {title:"栏目分析",url:"/fengyun"},
             {title:"标签库",url:"/fengyun-tag"},
             {title:"视频审核",url:"/tag-examine"}]
           },
@@ -102,6 +104,7 @@
     methods: {
       handleOpen(key, keyPath) {
         // localStorage.setItem("open",keyPath) //本地缓存菜单打开信息
+        // console.log(1)
       },
       logOut(){
         console.log('退出登录')
@@ -149,9 +152,7 @@
     },
     created(){
         this.logState();
-         this.activedMenu();
-     
-       
+        this.activedMenu();
     },
   }
 </script>

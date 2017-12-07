@@ -4,7 +4,7 @@
             <el-row :gutter="20">
                 <el-col :span="12">
                     <div class="grid-content">
-                        <el-tabs v-model="activeName" @tab-click="changeChart">
+                        <el-tabs v-model="activeName">
                             <el-tab-pane label="■ 用户量统计" name="one" class="cone"></el-tab-pane>
                             <el-tab-pane label="■ 用户充值额" name="two" class="cone"></el-tab-pane>
                         </el-tabs>
@@ -12,21 +12,13 @@
                 </el-col>
                 <el-col :span="12">
                     <div class="grid-content">
-                        <el-select v-model="value.val0" placeholder="请选择" size="mini">
-                            <el-option v-for="item in options.op01" :key="item.value" :label="item.label" :value="item.value">
-                            </el-option>
-                        </el-select>
-                        至
-                        <el-select v-model="value.val1" placeholder="请选择" size="mini">
-                            <el-option v-for="item in options.op02" :key="item.value" :label="item.label" :value="item.value">
-                            </el-option>
-                        </el-select>
+                        <el-date-picker v-model="value" @change='selectChange' value-format="yyyy-MM" format="yyyy-MM" :editable="false" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" unlink-panels> </el-date-picker>
                     </div>
                 </el-col>
             </el-row>
         </el-header>
         <el-main>
-            <charts :config="opt" :charts="chart"></charts>
+            <charts :config="opt" :charts="chart" ref="charts"></charts>
         </el-main>
     </el-container>
 </template>
@@ -40,40 +32,7 @@
         data() {
             return {
                 activeName: 'one',
-                value: {
-                    val0:'',
-                    val1:'',
-                    
-                },
-                options: {
-                    op01:[{
-                    value: 'op1-1',
-                    label: '2017.1'
-                }, {
-                    value: 'op1-2',
-                    label: '2017.2'
-                }, {
-                    value: 'op1-3',
-                    label: '2017.3'
-                }, {
-                    value: 'op1-4',
-                    label: '2017.4'
-                }, {
-                    value: 'op1-5',
-                    label: '2017.5'
-                }],
-
-
-                op02:[{
-                    value: 'op2-1',
-                    label: '2018.1'
-                }, {
-                    value: 'op2-2',
-                    label: '2018.2'
-                }]
-
-
-                },
+                value: '',
                 chart: [{ //图表个数
                         id: 'charts',
                         width: '71%',
@@ -94,14 +53,17 @@
                         title: {
                             show: false,
                         },
-                        tooltip: {},
+                         tooltip: {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                                data:['用户量','用户充值额']
+                            },
                         toolbox: {
                             feature: {
-                                dataView: {},
                                 saveAsImage: {
                                     pixelRatio: 2
                                 },
-                                restore: {}
                             }
                         },
                         xAxis: {
@@ -113,7 +75,7 @@
                         },
                         series: [{
                                 type: 'line', //折线
-                                name: '男',
+                                name: '用户量',
                                 smooth: true,
                                 data: [
                                     [0, 30], //数据
@@ -123,7 +85,7 @@
                             },
                             {
                                 type: 'line',
-                                name: "女",
+                                name: "用户充值额",
                                 smooth: true,
                                 data: [
                                     [0, 40],
@@ -132,18 +94,17 @@
                                 ]
                             }
                         ]
-                    },  
+                    },
                     //饼图
                     {
-                         title: {
-                             text:'男女比例统计'
-                         },
+                        title: {
+                            text: '男女比例统计'
+                        },
                         tooltip: {
                             // trigger: 'item',
                             // formatter: "{a} <br/>{b}: {c} ({d}%)"
                         },
                         series: [{
-                          
                             type: 'pie',
                             radius: ['70%', '90%'],
                             avoidLabelOverlap: false,
@@ -176,13 +137,16 @@
                             ]
                         }]
                     },
-                     //饼图
+                    //饼图
                     {
-                         title: {
-                             text:'地域比例统计'
-                         },
+                        title: {
+                            text: '地域比例统计'
+                        },
+                        tooltip: {
+                            // trigger: 'item',
+                            // formatter: "{a} <br/>{b}: {c} ({d}%)"
+                        },
                         series: [{
-                           
                             type: 'pie',
                             radius: ['70%', '90%'],
                             avoidLabelOverlap: false,
@@ -205,55 +169,56 @@
                                 }
                             },
                             data: [{
-                                    value: 200,
-                                    name: '南'
+                                    value: 335,
+                                    name: '男'
                                 },
                                 {
-                                    value: 90,
-                                    name: '北'
+                                    value: 310,
+                                    name: '女'
                                 },
                             ]
                         }]
+                    },
+                ],
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() > Date.now() - 8.64e6
                     }
-                ]
+                },
             }
         },
         components: {
             charts: charts
         },
         methods: {
-            changeChart(tab, event) {
-                console.log(tab, event);
+            selectChange(val) { //选中后触发
+                // console.log(val)
+                let data = {
+                    startDate: val[0],
+                    endDate: val[1],
+                };
+                this.$store.state.fullscreenLoading = true;
+                this.updateCharts(data);
+            },
+            updateCharts(data = {}) {
+                this.$http(this.$ApiSetting.homeCharts, data).then(res => {
+                    this.$store.state.fullscreenLoading = false;
+                    res.data[0].map((v, k) => {
+                        this.opt[0].series[k].data = v;
+                    })
+                    this.opt[1].series[0].data = res.data[1];
+                    this.opt[2].series[0].data = res.data[2];
+                    this.$refs.charts.updateCharts();
+                })
             }
+        },
+        created() {
+            this.$store.state.fullscreenLoading = true;
+            this.updateCharts();
         }
     }
 </script>
 
 <style lang="less">
-    @import url("../../assets/css/public");
-    .home-page {
-        .el-header {
-            background: #fff
-        }
-        .el-main {
-            background: #fff
-        }
-        .grid-content {
-            line-height: 60px
-        }
-        .el-tabs__item {
-            font-size: 20px
-        }
-        .el-tabs__item.is-active,
-        .el-tabs__item:hover,
-        .el-tabs__item:focus,
-        .el-tabs__item:focus:active {
-            color: @Scendcolor
-        }
-        .el-tabs__nav-wrap::after,
-        .el-tabs__active-bar {
-            visibility: hidden
-        }
-        .el-tabs__item {}
-    }
+
 </style>

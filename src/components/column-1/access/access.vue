@@ -9,9 +9,9 @@
                 </el-col>
                 <el-col :span="3">
                     <div class="grid-content">
-                            <router-link to="/addclass" class="btn-add">
+                            <div class="btn-add" @click="showMoadl">
                                 <i class="el-icon-plus"></i> 添加身份角色
-                            </router-link>
+                            </div>
                         </div>
                 </el-col>
             </el-row>
@@ -19,11 +19,14 @@
         <el-main>
             <tablecontent :tableData="tableData" :tableHead="tableHead" :tabSet="tabSet" :page="page" @childclick="childclick" @tableSet="tableSet" @handleCurrentChange="handleCurrentChange"></tablecontent>
         </el-main>
+         <addclass ref="addclass"></addclass>
     </el-container>
+   
 </template>
 
 <script type="text/ecmascript-6">
     import tablecontent from "../../table/table"
+    import addclass from "../addclass/addclass"
     export default {
         data() {
             return {
@@ -42,6 +45,7 @@
                     prop: 'creater',
                     label: '创建者',
                     width: '',
+                    classStyle:'pont'
                 }, {
                     prop: 'leaderclass',
                     label: '创建者身份',
@@ -75,8 +79,12 @@
                 let id = 0;
                 if (data.column.label == '创建者') {
                     id = parseInt(data.row.createrid)
+                    this.$router.push({path: '/account-con/' + id+'/1'})
                 }
-                console.log(id)
+                // if (data.column.label == '创建者身份') {
+                //     id = parseInt(data.row.createrid)
+                //     this.$router.push({path: '/editaccess/' + id+'/1'})
+                // }
             },
             tableSet(data) { // 操作栏 
                 let id = parseInt(data.id)
@@ -105,6 +113,9 @@
                     path: this.routerPath + 1 + '/' + this.search
                 })
             },
+            showMoadl(){   //操控子组件显示
+                this.$refs.addclass.showModal();
+            },
             pageInit(data, callback, setting = this.$ApiSetting.getAccess) { // ajax获取信息
                 this.loading = true;
                 this.$http(setting, data).then(res => {
@@ -115,7 +126,8 @@
             }
         },
         components: {
-            tablecontent: tablecontent
+            tablecontent: tablecontent,
+            addclass:addclass
         },
         created() {
             //数据初始化 根据路由参数获取页面信息
@@ -138,6 +150,8 @@
                 this.page.pageContent = parseInt(res.page.pageContent);
                 // console.log('数据初始化')
             });
+
+            this.$store.state.fullscreenLoading=false;
         },
         watch: {
             '$route' (to, form) {

@@ -9,8 +9,8 @@
                 </el-col>
                 <el-col :span="3">
                     <div class="grid-content">
-                        <router-link to="/adduser/add" class="btn-add">
-                            <i class="el-icon-plus"></i> 添加账号
+                        <router-link to="" class="btn-add">
+                            <i class="el-icon-plus"></i> 添加新表情
                         </router-link>
                     </div>
                 </el-col>
@@ -27,57 +27,43 @@
     export default {
         data() {
             return {
-                routerPath: '/account/',//账号列表
+                routerPath: '/fengyun-tag/',//账号列表
                 loading: false,
                 search: '',
                 tabSet: [{
-                        lable: '编辑',
+                        lable: '通过',
                     },
                     {
-                        lable: '权限',
-                    },
-                    {
-                        lable: '冻结',
+                        lable: '驳回',
                     }
                 ],
                 tableHead: [{
-                    prop: 'id',
-                    label: '账号ID',
+                    prop: 'tagName',
+                    label: '标签名称',
                     width: '',
                 }, {
-                    prop: 'name',
-                    label: '姓名',
-                    width: '',
-                    classStyle:'pont'
-                }, {
-                    prop: 'juese',
-                    label: '身份角色',
+                    prop: 'keyword',
+                    label: '关键字表述',
                     width: '',
                 }, {
-                    prop: 'creater',
-                    label: '创建者',
-                    width: '',
-                    classStyle:'pont'
-                }, {
-                    prop: 'createdate',
-                    label: '创建时间',
+                    prop: 'user',
+                    label: '发起者',
                     width: '',
                 }, {
-                    prop: 'tel',
-                    label: '联系电话',
+                    prop: 'target',
+                    label: '适用目标',
+                    width: '',
+                }, {
+                    prop: 'class',
+                    label: '分类',
+                    width: '',
+                }, {
+                    prop: 'state',
+                    label: '状态',
                     width: '',
                 }, ],
                 tableData: [
-                    //  {
-                    //   id: '1',
-                    //   name: '王小虎',
-                    //   juese:'部门主管',
-                    //   creater:'小看',
-                    //   createrid:'999',
-                    //   createdate:'2017-10-10 12:10',
-                    //   tel:'13588998899',
-                    // },
-
+                   
                 ],
                 page: {
                     pageContent: 1, //总页数
@@ -90,60 +76,19 @@
             childclick(data) { // 单元格
                 if (data.column.label === '操作') return;
                 let id = 0;
-                if (data.column.label == '姓名') {
-                    id = parseInt(data.row.id);
-                    this.$router.push({path: '/account-con/' + id+'/1'})
-                } else if (data.column.label == '创建者') {
-                    id = parseInt(data.row.createrid)
-                    this.$router.push({path: '/account-con/' + id+'/1'})
+                if (data.column.label == '发起者') {
+                    id = parseInt(data.row.userid)
                 }
-               
+
             },
             tableSet(data) { // 操作栏 
                 let id = parseInt(data.id)
-                let userid = data.row.id;
                 switch (id) {
                     case 0:
-                        this.$router.push({
-                            path: '/adduser/' + userid
-                        }); //编辑
+                    alert('通过')
                         break;
                     case 1:
-                        this.$router.push({
-                            path: '/edituser/' + userid
-                        }); //修改权限
-                        break;
-                    case 2:
-                        // console.log(data.row.id)
-                        const h = this.$createElement;
-                        let text = h('p', ['正在对 ', h('span', {
-                            style: 'color: red'
-                        }, data.row.name), ' 执行冻结操作，您确定吗']);
-                        this.$confirm(text, '操作提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            //确认
-                            this.$store.state.fullscreenLoading = true;
-                            this.$http(this.$ApiSetting.ban, {
-                                banid: data.row.id
-                            }).then(res => {
-                                //  只有成功状态码回到这里！！  不成功的可以再server.js进行拦截！！
-                                this.$store.state.fullscreenLoading = false;
-                                this.$message({
-                                    type: 'success',
-                                    message: '已冻结!'
-                                });
-                                this.tableData.splice(data.index, 1); //冻结
-                            })
-                        }).catch(() => {
-                            //取消
-                            this.$message({
-                                type: 'error',
-                                message: '已取消冻结'
-                            });
-                        });
+                    alert('驳回')
                         break;
                 }
             },
@@ -163,7 +108,7 @@
                     path: this.routerPath + 1 + '/' + this.search
                 })
             },
-            pageInit(data, callback, setting = this.$ApiSetting.getUser) { //获取信息
+            pageInit(data, callback, setting = this.$ApiSetting.getFengYunTag) { //获取信息
                 this.loading = true;
                 this.$http(setting, data).then(res => {
                     this.tableData = res.data.list;

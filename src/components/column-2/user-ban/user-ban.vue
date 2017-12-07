@@ -27,7 +27,7 @@
     export default {
         data() {
             return {
-                routerPath: '/user-examine/',//身份权限
+                routerPath: '/user-ban/',//身份权限
                 loading: false,
                 search: '',
                 tabSet: [{
@@ -43,6 +43,7 @@
                     prop: 'name',
                     label: '昵称',
                     width: '',
+                    classStyle:'pont'
                 }, {
                     prop: 'userlevel',
                     label: '用户等级',
@@ -110,12 +111,12 @@
                     case 0:
                         let accessid = data.row.id;
                          const h = this.$createElement;
-                        let text = h('p', ['正在对 ', h('span', {
+                        let text = h('p', ['该账户因 ', h('span', {
                             style: 'color: red'
-                        }, data.row.name), ' 执行解封操作，您确定吗']);
+                        }, data.row.name), ' 原因被冻结，您确定要进行解冻操作吗？']);
                         this.$confirm(text, '操作提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
+                            confirmButtonText: '确认操作',
+                            cancelButtonText: '我再想想',
                             type: 'warning'
                         }).then(() => {
                             //确认
@@ -125,14 +126,14 @@
                             }).then(res => {
                                 //  只有成功状态码回到这里！！  不成功的可以再server.js进行拦截！！
                                 this.$store.state.fullscreenLoading = false;
-                                this.$message({type: 'success',message: '已解封!'});
+                                this.$message({type: 'success',message: '解冻成功，账号已恢复平台登录功能!'});
                                 this.tableData.splice(data.index, 1); //冻结
                             })
                         }).catch(() => {
                             //取消
                             this.$message({
                                 type: 'error',
-                                message: '已取消解封'
+                                message: '已取消操作'
                             });
                         });
                         break;

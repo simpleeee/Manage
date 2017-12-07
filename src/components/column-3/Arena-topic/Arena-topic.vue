@@ -2,17 +2,18 @@
     <el-container class="account" v-loading="loading">
         <el-header>
             <el-row type="flex" justify="space-between">
-                <el-col :span="3">
-                    <div class="grid-content">
+                <el-col :span="4">
+                    <div class="grid-content search-add">
                         <el-input v-model="search" @keyup.enter.native="doSraech" placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
+                         <router-link class="add-new" to=""><i class="el-icon-plus"></i></router-link>
                     </div>
                 </el-col>
-                <el-col :span="3">
-                    <!-- <div class="grid-content">
-                            <router-link to="/adduser/add" class="btn-add">
-                                <i class="el-icon-plus"></i> 添加账号
-                            </router-link>
-                        </div> -->
+               <el-col :span="3">
+                    <div class="grid-content">
+                        <el-select v-model="value" placeholder="等级" @change="selectChange">
+                            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+                        </el-select>
+                        </div>
                 </el-col>
             </el-row>
         </el-header>
@@ -27,46 +28,41 @@
     export default {
         data() {
             return {
-                routerPath: '/account-ban/',//冻结列表
+                routerPath: '/Arena-topic/', //禁止列表
                 loading: false,
                 search: '',
                 tabSet: [{
-                        lable: '编辑',
+                        lable: '限制',
                     },
                     {
-                        lable: '权限',
-                    },
-                    {
-                        lable: '恢复',
+                        lable: '置顶',
                     }
                 ],
                 tableHead: [{
                     prop: 'id',
-                    label: '账号ID',
+                    label: '话题ID',
+                    width: '',
+                }, {
+                    prop: 'content',
+                    label: '话题内容',
                     width: '',
                 }, {
                     prop: 'name',
-                    label: '姓名',
+                    label: '发起者',
                     width: '',
-                    classStyle:'pont'
                 }, {
                     prop: 'juese',
                     label: '身份角色',
-                    width: '',
+                    width: ''
                 }, {
-                    prop: 'creater',
-                    label: '创建者',
-                    width: '',
-                    classStyle:'pont'
+                    prop: 'createtime',
+                    label: '申请时间',
+                    width: ''
                 }, {
-                    prop: 'createdate',
-                    label: '创建时间',
-                    width: '',
-                }, {
-                    prop: 'tel',
-                    label: '联系电话',
-                    width: '',
-                }, ],
+                    prop: 'state',
+                    label: '状态',
+                    width: ''
+                }],
                 tableData: [
                 ],
                 page: {
@@ -74,70 +70,56 @@
                     currentPage: 1, //当前页
                     pageSize: 10 //每页条数
                 },
+                options: [{
+                    value: '时间',
+                    label: '时间'
+                },{
+                    value: '意见数',
+                    label: '意见数'
+                },{
+                    value: '浏览数',
+                    label: '浏览数'
+                },
+                {
+                    value: '消费数',
+                    label: '消费数'
+                }
+                ],
+                value:''
             }
         },
         methods: {
             childclick(data) { // 单元格
                 if (data.column.label === '操作') return;
                 let id = 0;
-                if (data.column.label == '姓名') {
-                    id = parseInt(data.row.id);
-                    this.$router.push({path: '/account-con/' + id+'/1'})
-                } else if (data.column.label == '创建者') {
-                    id = parseInt(data.row.createrid);
-                    this.$router.push({path: '/account-con/' + id+'/1'})
-                }        
+                if (data.column.label == '发起者') {
+                    id = parseInt(data.row.userid)  //获取当前发起者ID
+                   
+                }else if(data.column.label == '话题内容'){
+                    id = parseInt(data.row.id)  //获取当前发起者ID
+                }
+                 console.log(id)
+                
             },
             tableSet(data) { // 操作栏 
                 let id = parseInt(data.id)
-                 let userid = data.row.id;
+                let accessid = data.row.id;
                 switch (id) {
-                    case 0:
-                        this.$router.push({
-                            path: '/adduser/' + userid
-                        }); //编辑
-                        break;
-                    case 1:
-                     this.$router.push({
-                            path: '/edituser/' + userid
-                        }); //修改权限
-                        break;
-                    case 2:
-                        // console.log(data.row.id)
-                        const h = this.$createElement;
-                        let text = h('p', ['正在对 ', h('span', {
-                            style: 'color: red'
-                        }, data.row.name), ' 执行恢复操作，您确定吗']);
-                        this.$confirm(text, '操作提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            //确认
-                            this.$store.state.fullscreenLoading = true;
-                            this.$http(this.$ApiSetting.ban, {
-                                banid: data.row.id
-                            }).then(res => {
-                                //  只有成功状态码回到这里！！  不成功的可以再server.js进行拦截！！
-                                this.$store.state.fullscreenLoading = false;
-                                this.$message({
-                                    type: 'success',
-                                    message: '已恢复!'
-                                });
-                                this.tableData.splice(data.index, 1); //冻结
+                    case 0: //通过
+                    this.loading=true;
+                    this.pageInit(data,res=>{
+                                this.loading=false;
+                                this.$message({type: 'success',message: '已提交操作'});
+                                this.tableData.splice(data.index, 1); //驳回移出当前数据
                             })
-                        }).catch(() => {
-                            //取消
-                            this.$message({
-                                type: 'error',
-                                message: '已取消恢复'
-                            });
-                        });
-                        break;
+                    break;
+                    case 1://置顶
+                    alert('置顶')
+                    break;
                 }
             },
             handleCurrentChange(val) { //分页 
-                // console.log(`当前页码:${val}`)
+
                 this.$router.push({
                     path: this.routerPath + val + '/' + this.search
                 })
@@ -152,7 +134,16 @@
                     path: this.routerPath + 1 + '/' + this.search
                 })
             },
-            pageInit(data, callback, setting = this.$ApiSetting.getBanUser) { // ajax获取信息
+            selectChange() { //触发 下拉框
+                // let data = {
+                //     search: this.search,
+                //     page: 1,
+                //     value:this.value
+                // }
+                // this.pageInit(data,res=>{});
+                console.log(this.value)
+            },
+            pageInit(data, callback, setting = this.$ApiSetting.getArenaTopic ) { // ajax 获取信息  
                 this.loading = true;
                 this.$http(setting, data).then(res => {
                     this.tableData = res.data.list;
@@ -199,6 +190,15 @@
     }
 </script>
 
-<style scoped lang="less">
-
+<style lang="less">
+    .redx {
+        color: red
+    }
+    .textc {
+        text-align: center;
+        line-height: 40px
+    }
+    .account .el-header .el-row.sc-row {
+        margin-top: 0
+    }
 </style>

@@ -3,7 +3,7 @@
 <el-table :data="tableData" stripe style="width: 100%" @cell-click="cellClick" :cell-class-name="cellClassName">
                 <el-table-column v-for="(head,index) in tableHead" :key="index" :prop="head.prop" :label="head.label" :width="head.width" :show-overflow-tooltip="true"></el-table-column>
 
-                <el-table-column fixed="right" label="操作">
+                <el-table-column fixed="right" label="操作"  v-if="isSet">
                         <template slot-scope="scope">
                             <el-button v-for="(tab,index) in tabSet" :key="index" @click="deleteRow(scope.$index, scope.row,index)" type="text" size="small">{{tab.lable}}</el-button>
                         </template>
@@ -22,6 +22,7 @@
  data() {
  return {
     currentPage: 1,
+    isSet:this.tabSet,
  }
 
  },
@@ -53,5 +54,5 @@
 </script>
 
 <style>
-
+.pont{cursor: pointer}
 </style>

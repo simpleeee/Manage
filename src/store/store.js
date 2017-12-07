@@ -36,6 +36,9 @@ const mutations={
     },
     setLeader(state,value){
         state.userLeader=value;  
+    },
+    addNewLeader(state,value){
+        state.userLeader.push(value)
     }
 };
 

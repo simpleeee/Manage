@@ -5,8 +5,8 @@
                 <el-col :span="12">
                     <div class="grid-content">
                         <el-tabs v-model="activeName">
-                            <el-tab-pane label="■ 用户量统计" name="one" class="cone"></el-tab-pane>
-                            <el-tab-pane label="■ 用户总充值月额" name="two" class="cone"></el-tab-pane>
+                            <el-tab-pane label="总台统计" name="one" class="cone"></el-tab-pane>
+                            <!-- <el-tab-pane label="■ 用户充值额" name="two" class="cone"></el-tab-pane> -->
                         </el-tabs>
                     </div>
                 </el-col>
@@ -35,8 +35,8 @@
                 value: '',
                 chart: [{ //图表个数
                         id: 'charts',
-                        width: '71%',
-                        height: '400px'
+                        width: '80%',
+                        height: '450px'
                     },
                     { //图表个数
                         id: 'charts-round',
@@ -48,61 +48,61 @@
                         width: '30%',
                         height: '200px'
                     },
+                    { //图表个数
+                        id: 'charts-round-03',
+                        width: '30%',
+                        height: '200px'
+                    },
                 ],
-                opt: [{ //图表配置
-                        title: {
-                            show: false,
+                opt: [{
+                        legend: {
+                            data: ['视频数', '主题数', '浏览量', '消费额']
+                        },
+                        grid: {
+                            left: '3%',
+                            right: '4%',
+                            bottom: '3%',
+                            containLabel: true
                         },
                         tooltip: {
-                            trigger: 'axis'
-                        },
-                        legend: {
-                                data:['用户量','用户充值额']
-                            },
-                        toolbox: {
-                            feature: {
-                                saveAsImage: {
-                                    pixelRatio: 2
-                                },
+                            trigger: 'axis',
+                            axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                                type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
                             }
                         },
-                        xAxis: {
-                            // show:false,
-                            name: "月份\n/月",
-                        },
-                        yAxis: {
-                            name: "数量\n/W"
-                        },
+                        xAxis: [{
+                            type: 'category',
+                            data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+                        }],
+                        yAxis: [{
+                            type: 'value'
+                        }],
                         series: [{
-                                type: 'line', //折线
-                                name: '用户量',
-                                smooth: true,
-                                data: [
-                                    [0, 30], //数据
-                                    [3, 40], //数据
-                                    [5, 65]
-                                ]
+                                name: '视频数',
+                                type: 'bar',
+                                data: [320, 332, 301, 334, 390, 330, 320, 320, 332, 301, 334, 390]
                             },
                             {
-                                type: 'line',
-                                name: "用户充值额",
-                                smooth: true,
-                                data: [
-                                    [0, 40],
-                                    [5, 20],
-                                    [7, 50],
-                                ]
-                            }
+                                name: '主题数',
+                                type: 'bar',
+                                data: [120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90]
+                            },
+                            {
+                                name: '浏览量',
+                                type: 'bar',
+                                data: [220, 182, 191, 234, 290, 330, 310, 220, 182, 191, 234, 290]
+                            },
+                            {
+                                name: '消费额',
+                                type: 'bar',
+                                data: [150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190]
+                            },
                         ]
                     },
                     //饼图
                     {
                         title: {
-                            text: '男女比例统计'
-                        },
-                        tooltip: {
-                            // trigger: 'item',
-                            // formatter: "{a} <br/>{b}: {c} ({d}%)"
+                            text: '视频数占比'
                         },
                         series: [{
                             type: 'pie',
@@ -128,11 +128,11 @@
                             },
                             data: [{
                                     value: 335,
-                                    name: '男'
+                                    name: '1'
                                 },
                                 {
                                     value: 310,
-                                    name: '女'
+                                    name: '2'
                                 },
                             ]
                         }]
@@ -140,11 +140,7 @@
                     //饼图
                     {
                         title: {
-                            text: '地域比例统计'
-                        },
-                        tooltip: {
-                            // trigger: 'item',
-                            // formatter: "{a} <br/>{b}: {c} ({d}%)"
+                            text: '消费额占比'
                         },
                         series: [{
                             type: 'pie',
@@ -169,16 +165,54 @@
                                 }
                             },
                             data: [{
-                                    value: 335,
-                                    name: '男'
+                                    value: 200,
+                                    name: '1'
                                 },
                                 {
-                                    value: 310,
-                                    name: '女'
+                                    value: 90,
+                                    name: '2'
                                 },
                             ]
                         }]
                     },
+                    //饼图
+                    {
+                        title: {
+                            text: '浏览量占比'
+                        },
+                        series: [{
+                            type: 'pie',
+                            radius: ['70%', '90%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '20',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data: [{
+                                    value: 200,
+                                    name: '1'
+                                },
+                                {
+                                    value: 90,
+                                    name: '2'
+                                },
+                            ]
+                        }]
+                    }
                 ],
                 pickerOptions: {
                     disabledDate(time) {
@@ -190,7 +224,7 @@
         components: {
             charts: charts
         },
-        methods: {
+    methods: {
             selectChange(val) { //选中后触发
                 // console.log(val)
                 let data = {
@@ -201,7 +235,7 @@
                 this.updateCharts(data);
             },
             updateCharts(data = {}) {
-                this.$http(this.$ApiSetting.userCharts, data).then(res => {
+                this.$http(this.$ApiSetting.wulinCharts, data).then(res => {
                     this.$store.state.fullscreenLoading = false;
                     res.data[0].map((v, k) => {
                         this.opt[0].series[k].data = v;
@@ -220,5 +254,5 @@
 </script>
 
 <style lang="less">
-
+   
 </style>
