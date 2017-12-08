@@ -5,7 +5,7 @@
                 <el-col :span="4">
                     <div class="grid-content search-add">
                         <el-input v-model="search" @keyup.enter.native="doSraech" placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
-                         <router-link class="add-new" to=""><i class="el-icon-plus"></i></router-link>
+                        <div class="add-new" @click="addNewtag"><i class="el-icon-plus"></i></div>
                     </div>
                 </el-col>
                <el-col :span="3">
@@ -46,10 +46,12 @@
                     prop: 'content',
                     label: '话题内容',
                     width: '',
+                    classStyle:'pont'
                 }, {
                     prop: 'name',
                     label: '发起者',
                     width: '',
+                    classStyle:'pont'
                 }, {
                     prop: 'juese',
                     label: '身份角色',
@@ -94,11 +96,13 @@
                 let id = 0;
                 if (data.column.label == '发起者') {
                     id = parseInt(data.row.userid)  //获取当前发起者ID
-                   
-                }else if(data.column.label == '话题内容'){
-                    id = parseInt(data.row.id)  //获取当前发起者ID
+                    this.$router.push({path: '/user-info/'+id+'/user-video/leitai/1'})  
                 }
-                 console.log(id)
+                if (data.column.label == '话题内容') {
+                    id = parseInt(data.row.id)  //获取当前发起者ID
+                    this.$router.push({path: '/Arena-info/Arena/'+id+'/Arena-video-topic/Y/1'})  
+                }
+                
                 
             },
             tableSet(data) { // 操作栏 
@@ -119,7 +123,6 @@
                 }
             },
             handleCurrentChange(val) { //分页 
-
                 this.$router.push({
                     path: this.routerPath + val + '/' + this.search
                 })
@@ -142,6 +145,22 @@
                 // }
                 // this.pageInit(data,res=>{});
                 console.log(this.value)
+            },
+             addNewtag(){
+                 this.$prompt('话题发起', '', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        inputPattern: /\S/,
+                        inputErrorMessage: '请输入话题内容'
+                        }).then(({ value }) => {
+                            //点击确认操作
+                        this.$message({ type: 'success', message: '发起成功: ' });
+
+                        }).catch(() => {
+
+                        this.$message({ type: 'info',  message: '取消输入' });       
+
+                        });
             },
             pageInit(data, callback, setting = this.$ApiSetting.getArenaTopic ) { // ajax 获取信息  
                 this.loading = true;

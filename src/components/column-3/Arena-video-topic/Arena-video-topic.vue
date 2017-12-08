@@ -6,9 +6,9 @@
          </ul>
      </div>
      <div class="card">
-                    <ul class="video-card">
-                        <li v-for="(video,index) in videos" :key="index"><i class="jinzhi" :class="modalConf.class? 'el-icon-circle-check-outline':'el-icon-remove-outline'" @click="dialogVisible=true,choseVideo=video.id"></i><router-link :to="/analysis/+video.id"><img :src="video.img" alt=""></router-link></li>
-                    </ul>
+            <ul class="video-card">
+                <li v-for="(video,index) in videos" :key="index"><i class="jinzhi" :class="modalConf.class? 'el-icon-circle-check-outline':'el-icon-remove-outline'" @click="dialogVisible=true,choseVideo=video.id"></i><router-link :to="/analysis/+video.id"><img :src="video.img" alt=""></router-link></li>
+            </ul>
     </div>
      <div class="block" v-show="page.pageContent>1">
              <el-pagination @current-change="handleCurrentChange" :current-page.sync="page.currentPage" :page-size="page.pageSize" layout="total, prev, pager, next,jumper" :page-count="page.pageContent"> </el-pagination>
@@ -48,10 +48,9 @@
      loading:false,
      choseVideo:'',
      nav:[
-         {title:'擂台',num:'4',active:true,tag:'leitai'},
-         {title:'武林',num:'45',active:false,tag:'wulin'},
-         {title:'风云',num:'555',active:false,tag:'fengyun'},
-         {title:'已禁',num:'33',active:false,tag:'yijin'},
+         {title:'Y方意见',num:'4',active:true,tag:'Y'},
+         {title:'N方意见',num:'45',active:false,tag:'N'},
+         {title:'限制意见',num:'555',active:false,tag:'X'}
      ],
      value:{
          resource:'内容不良'
@@ -79,9 +78,10 @@
      },
      getVideoInfo(){        //获取视频列表
         let data={
-            // id:this.$route.params.id, //用户id
-            // tag:this.$route.params.tag //当前选择标签
-            // tag:this.$route.params.page //当前标签页数
+            id:this.$route.params.id, //用户id
+            tag:this.$route.params.tag, //当前选择标签
+            page:this.$route.params.page, //当前标签页数
+            block:this.$route.params.block //当前版块 主题or话题
         }
          this.loading=true;
          setTimeout(() => {
@@ -109,7 +109,7 @@
             if(tag===v.tag){v.active=true;}
             })
             this.getVideoInfo();
-            tag=='yijin'?this.modalConf.class=true:this.modalConf.class=false
+            tag=='X'?this.modalConf.class=true:this.modalConf.class=false
      },
      banVideo(){ //限制视频
         this.dialogVisible=false;
@@ -127,6 +127,13 @@
      }
  },
  created(){
+     let block=this.$route.params.block;
+     if(block=='wulin'){
+         this.nav=[
+            {title:'挑战视频',num:'4',active:true,tag:'Y'},
+            {title:'限制视频',num:'555',active:false,tag:'X'}
+         ]
+     }
      this.watchRouter();
  }
  }

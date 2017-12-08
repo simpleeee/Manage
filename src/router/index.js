@@ -54,7 +54,7 @@ const routes = [{
     */
       {
         //用户统计信息
-        path: '/users',
+        path: '/user',
         component: resolve => require(['@/components/column-2/users/users'], resolve)
       },
       {
@@ -89,7 +89,7 @@ const routes = [{
       },
 
   /**
-   * 菜单栏三
+   * 擂台管理
    */
       {
         //擂台管理
@@ -112,6 +112,25 @@ const routes = [{
         component: resolve => require(['@/components/column-3/Arena-topic/Arena-topic'], resolve)
       },
       {
+        //话题详情
+        path: '/Arena-info/:block/:id',
+        component: resolve => require(['@/components/column-3/Arena-info/Arena-info'], resolve),
+        children:[
+          {
+            path:'Arena-video-topic/:tag?/:page?',
+            component: resolve => require(['@/components/column-3/Arena-video-topic/Arena-video-topic'], resolve),
+          },
+        ]
+      },
+      {
+        //视频审核
+        path: '/Arena-video/:block/:tag/:page?',
+        component: resolve => require(['@/components/column-3/Arena-video/Arena-video'], resolve)
+      },
+  /**
+   * 武林管理
+   */  
+      {        
         //武林
         path: '/wulin',
         component: resolve => require(['@/components/column-4/wulin/wulin'], resolve)

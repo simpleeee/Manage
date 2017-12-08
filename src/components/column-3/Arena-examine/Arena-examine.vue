@@ -5,24 +5,12 @@
                 <el-col :span="4">
                     <div class="grid-content search-add">
                         <el-input v-model="search" @keyup.enter.native="doSraech" placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
-                        <router-link class="add-new" to=""><i class="el-icon-plus"></i></router-link>
+                        <div class="add-new" @click="addNewtag"><i class="el-icon-plus"></i></div>
                     </div>
                 </el-col>
                 <el-col :span="6">
                     <div class="grid-content">
-                        <el-row class="sc-row">
-                            <el-col :span='11'>
-                                <el-select v-model="value.start" placeholder="请选择">
-                                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
-                                </el-select>
-                            </el-col>
-                            <el-col :span='2' class="textc">至</el-col>
-                            <el-col :span='11'>
-                                <el-select v-model="value.end" placeholder="请选择" @change="selectChange">
-                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"> </el-option>
-                                </el-select>
-                            </el-col>
-                        </el-row>
+                        <el-date-picker v-model="value" @change='selectChange' value-format="yyyy-MM" format="yyyy-MM" :editable="false" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" unlink-panels> </el-date-picker>
                     </div>
                 </el-col>
             </el-row>
@@ -60,6 +48,7 @@
                     prop: 'name',
                     label: '发起者',
                     width: '',
+                    classStyle:'pont'
                 }, {
                     prop: 'juese',
                     label: '身份角色',
@@ -80,24 +69,12 @@
                     currentPage: 1, //当前页
                     pageSize: 10 //每页条数
                 },
-                options: [{
-                    value: '2017年1月',
-                    label: '2017年1月'
-                }, {
-                    value: '2月',
-                    label: '2月'
-                }],
-                options2: [{
-                    value: '2018年1月',
-                    label: '2018年1月'
-                }, {
-                    value: '2月',
-                    label: '2月'
-                }],
-                value: {
-                    start: '2017年1月',
-                    end: '2018年1月'
-                }
+                value: '',
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() > Date.now() - 8.64e6
+                    }
+                },
             }
         },
         methods: {
@@ -106,8 +83,9 @@
                 let id = 0;
                 if (data.column.label == '发起者') {
                     id = parseInt(data.row.userid)  //获取当前发起者ID
-                    console.log(data.row.userid)
+                    this.$router.push({path: '/user-info/'+id+'/user-video/leitai/1'})  
                 }
+
                 
             },
             tableSet(data) { // 操作栏 
@@ -160,14 +138,31 @@
                     path: this.routerPath + 1 + '/' + this.search
                 })
             },
-            selectChange() { //时间选择
-                // let data = {
-                //     search: this.search,
-                //     page: 1,
-                //     value:this.value
-                // }
+            selectChange(val) { //时间选择
+                 let data = {
+                    search: this.search, 
+                    startDate: val[0],
+                    endDate: val[1],
+                    page: 1,
+                };
                 // this.pageInit(data,res=>{});
                 // console.log(this.value)
+            },
+            addNewtag(){
+                 this.$prompt('话题发起', '', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        inputPattern: /\S/,
+                        inputErrorMessage: '请输入话题内容'
+                        }).then(({ value }) => {
+                            //点击确认操作
+                        this.$message({ type: 'success', message: '发起成功: ' });
+
+                        }).catch(() => {
+
+                        this.$message({ type: 'info',  message: '取消输入' });       
+
+                        });
             },
             pageInit(data, callback, setting = this.$ApiSetting.getArenaExamine) { // ajax获取信息
                 this.loading = true;
@@ -217,14 +212,5 @@
 </script>
 
 <style lang="less">
-    .redx {
-        color: red
-    }
-    .textc {
-        text-align: center;
-        line-height: 40px
-    }
-    .account .el-header .el-row.sc-row {
-        margin-top: 0
-    }
+
 </style>

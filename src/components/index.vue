@@ -66,7 +66,7 @@
           },
 
           {icon:"icon-geren",title:"用户管理",children:[
-            {title:"用户管理",url:"/users"},
+            {title:"用户管理",url:"/user"},
             {title:"用户审核",url:"/user-examine"},
             {title:"冻结列表",url:"/user-ban"}
             ]
@@ -76,18 +76,18 @@
             {title:"待审列表",url:"/Arena-examine"},
             {title:"禁止列表",url:"/Arena-ban"},
             {title:"话题列表",url:"/Arena-topic"},
-            {title:"视频审核",url:"/Arena-video"},]
+            {title:"视频审核",url:"/Arena-video/Arena/on/1"},]
           },
           {icon:"icon-wulindahui",title:"武林管理",children:[
             {title:"栏目分析",url:"/wulin"},
             {title:"主题列表",url:"/wulin-list"},
             {title:"禁止列表",url:"/wulin-ban"},
-            {title:"视频审核",url:"/wulin-video"}]
+            {title:"视频审核",url:"/Arena-video/wulin/on/1"}]
           },
           {icon:"icon-yun",title:"风云管理",children:[
             {title:"栏目分析",url:"/fengyun"},
             {title:"标签库",url:"/fengyun-tag"},
-            {title:"视频审核",url:"/tag-examine"}]
+            {title:"视频审核",url:"/Arena-video/fengyun/on/1"}]
           },
            {icon:"icon-xitong",title:"系统管理",url:"#",children:[
             {title:"标签库",url:"/system-tag"},
@@ -140,7 +140,8 @@
 
       activedMenu() {
         let active=this.$route.path.split('/')[1];
-       this.activeIndex='/'+active;
+        // if(active.indexOf()){}
+        this.activeIndex='/'+active;
   }
     },
     watch:{

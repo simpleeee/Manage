@@ -9,9 +9,9 @@
                 </el-col>
                 <el-col :span="3">
                     <div class="grid-content">
-                        <router-link to="" class="btn-add">
+                        <div @click="dialogFormVisible=true" class="btn-add">
                             <i class="el-icon-plus"></i> 添加新表情
-                        </router-link>
+                        </div>
                     </div>
                 </el-col>
             </el-row>
@@ -19,6 +19,33 @@
         <el-main>
             <tablecontent :tableData="tableData" :tableHead="tableHead" :tabSet="tabSet" :page="page" @childclick="childclick" @tableSet="tableSet" @handleCurrentChange="handleCurrentChange"></tablecontent>
         </el-main>
+        <el-dialog title="新标签" :visible.sync="dialogFormVisible" center>
+            <el-form :model="values" :rules="rules" ref="ruleForm">
+                <el-form-item prop="name">
+                    <el-input v-model="values.name" auto-complete="off" placeholder="请输入标签名称"></el-input>
+                </el-form-item>
+                <el-form-item prop="tag">
+                    <el-input v-model="values.tag" auto-complete="off" placeholder="请输入关键字描述"></el-input>
+                </el-form-item>
+                <el-row>
+                    <el-col :span="12">
+                         <el-form-item label="分类">
+                            <el-select v-model="values.class" @focus="getTagClass" placeholder="请选择分类">
+                                <el-option v-for="(cl,index) in values.classList" :key="index" :label="cl.val" :value="cl.val"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item>
+                            <el-input v-model="values.class" auto-complete="off" placeholder="输入新的分类"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <div class="block" style="text-align: center">
+                    <el-button type="danger" @click="submitForm('ruleForm')">添加新标签</el-button>
+                </div>
+            </el-form>
+        </el-dialog>
     </el-container>
 </template>
 
@@ -27,9 +54,10 @@
     export default {
         data() {
             return {
-                routerPath: '/fengyun-tag/',//账号列表
+                routerPath: '/fengyun-tag/', //账号列表
                 loading: false,
                 search: '',
+                dialogFormVisible: false,
                 tabSet: [{
                         lable: '通过',
                     },
@@ -49,6 +77,7 @@
                     prop: 'user',
                     label: '发起者',
                     width: '',
+                    classStyle: 'pont'
                 }, {
                     prop: 'target',
                     label: '适用目标',
@@ -62,14 +91,32 @@
                     label: '状态',
                     width: '',
                 }, ],
-                tableData: [
-                   
-                ],
+                tableData: [],
                 page: {
                     pageContent: 1, //总页数
                     currentPage: 1, //当前页
                     pageSize: 10 //每页条数
                 },
+                values: {
+                    name: '',
+                    tag: '',
+                    class:'其他',
+                    classList:[
+                      
+                    ]
+                },
+                rules: {
+                    name: [{
+                        required: true,
+                        message: '请输入标签名称',
+                        trigger: 'blur'
+                    }],
+                    tag: [{
+                        required: true,
+                        message: '请输入关键字',
+                        trigger: 'blur'
+                    }]
+                }
             }
         },
         methods: {
@@ -77,18 +124,20 @@
                 if (data.column.label === '操作') return;
                 let id = 0;
                 if (data.column.label == '发起者') {
-                    id = parseInt(data.row.userid)
+                    id = parseInt(data.row.userid);
+                    this.$router.push({
+                        path: '/user-info/' + id + '/user-video/leitai/1'
+                    })
                 }
-
             },
             tableSet(data) { // 操作栏 
                 let id = parseInt(data.id)
                 switch (id) {
                     case 0:
-                    alert('通过')
+                        alert('通过')
                         break;
                     case 1:
-                    alert('驳回')
+                        alert('驳回')
                         break;
                 }
             },
@@ -107,6 +156,27 @@
                 this.$router.push({
                     path: this.routerPath + 1 + '/' + this.search
                 })
+            },
+            getTagClass(){//获取分类列表
+                let op=[
+                    {label:'生活',val:'生活'},
+                    {label:'个人',val:'个人'},
+                    {label:'其他',val:'其他'},
+                ]
+                setTimeout(() => {
+                    this.values.classList=op;
+                }, 300);
+            },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                       this.dialogFormVisible=false;
+                       alert('submit')
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
             },
             pageInit(data, callback, setting = this.$ApiSetting.getFengYunTag) { //获取信息
                 this.loading = true;

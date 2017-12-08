@@ -5,24 +5,12 @@
                 <el-col :span="4">
                     <div class="grid-content search-add">
                         <el-input v-model="search" @keyup.enter.native="doSraech" placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
-                         <router-link class="add-new" to=""><i class="el-icon-plus"></i></router-link>
+                         <!-- <router-link class="add-new" to=""><i class="el-icon-plus"></i></router-link> -->
                     </div>
                 </el-col>
                 <el-col :span="6">
                     <div class="grid-content">
-                        <el-row class="sc-row">
-                            <el-col :span='11'>
-                                <el-select v-model="value.start" placeholder="请选择">
-                                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
-                                </el-select>
-                            </el-col>
-                            <el-col :span='2' class="textc">至</el-col>
-                            <el-col :span='11'>
-                                <el-select v-model="value.end" placeholder="请选择" @change="selectChange">
-                                    <el-option v-for="item in options2" :key="item.value" :label="item.label" :value="item.value"> </el-option>
-                                </el-select>
-                            </el-col>
-                        </el-row>
+                        <el-date-picker v-model="value" @change='selectChange' value-format="yyyy-MM" format="yyyy-MM" :editable="false" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" unlink-panels> </el-date-picker>
                     </div>
                 </el-col>
             </el-row>
@@ -53,10 +41,12 @@
                     prop: 'content',
                     label: '话题内容',
                     width: '',
+                    classStyle:'pont'
                 }, {
                     prop: 'name',
                     label: '发起者',
                     width: '',
+                    classStyle:'pont'
                 }, {
                     prop: 'juese',
                     label: '身份角色',
@@ -82,24 +72,12 @@
                     currentPage: 1, //当前页
                     pageSize: 10 //每页条数
                 },
-                options: [{
-                    value: '2017年1月',
-                    label: '2017年1月'
-                }, {
-                    value: '2月',
-                    label: '2月'
-                }],
-                options2: [{
-                    value: '2018年1月',
-                    label: '2018年1月'
-                }, {
-                    value: '2月',
-                    label: '2月'
-                }],
-                value: {
-                    start: '2017年1月',
-                    end: '2018年1月'
-                }
+                value: '',
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() > Date.now() - 8.64e6
+                    }
+                },
             }
         },
         methods: {
@@ -108,7 +86,11 @@
                 let id = 0;
                 if (data.column.label == '发起者') {
                     id = parseInt(data.row.userid)  //获取当前发起者ID
-                    console.log(data.row.userid)
+                   this.$router.push({path: '/user-info/'+id+'/user-video/leitai/1'})  
+                }
+                if (data.column.label == '话题内容') {
+                    id = parseInt(data.row.id)  //获取id
+                                       
                 }
                 
             },
