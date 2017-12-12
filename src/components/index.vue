@@ -93,7 +93,7 @@
             {title:"标签库",url:"/system-tag"},
             {title:"系统设置",url:"/system-setting"},
             {title:"用户反馈",url:"/system-res"},
-            {title:"举报管理",url:"/system-man"},
+            {title:"举报管理",url:"/system-man/report/leitai/1"},//report or appeal
             {title:"图片库",url:"/system-img"},
             ]
           }

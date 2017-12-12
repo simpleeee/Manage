@@ -21,7 +21,9 @@
   }
   input.err{border:1px solid red;outline-color: red}
 
-
+  .ov_1{overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; word-break: break-all;}
+  .ov_2{overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; word-break: break-all;}
+  .ov_3{overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; word-break: break-all;}
   .account {
     .el-header {
         background: #fff;
@@ -89,6 +91,21 @@
         // .add-new-user
         label,input,.add-new-user{display: table-cell}
         .add-new-class{position: absolute;right: 7%;top: 0}
+    }
+}
+.upload-title {
+    color: #EB3A11;
+    font-size: 1.7em;
+    line-height: 60px;
+    span {
+        margin-right: 15px;
+        i {
+            cursor: pointer
+        }
+    }
+    span.tword {
+        border-bottom: 3px solid #EB3A11;
+        padding: 7px 0
     }
 }
 .redx {

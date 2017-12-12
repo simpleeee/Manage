@@ -155,6 +155,34 @@ const routes = [{
         path: '/fengyun-tag/:page?/:search?',
         component: resolve => require(['@/components/column-5/fengyun-tag/fengyun-tag'], resolve)
       },
+  /**
+   * 系统管理
+   */
+      { 
+        //标签库    
+        path: '/system-tag/:page?/:search?',
+        component: resolve => require(['@/components/column-6/system-tag/system-tag'], resolve)
+      },
+      { 
+        //系统设置      
+        path: '/system-setting',
+        component: resolve => require(['@/components/column-6/system-setting/system-setting'], resolve)
+      },
+      { 
+        //用户反馈
+        path: '/system-res',
+        component: resolve => require(['@/components/column-6/system-res/system-res'], resolve)
+      },
+      { 
+        //举报管理
+        path: '/system-man/:block/:tag?/:page?',
+        component: resolve => require(['@/components/column-6/system-man/system-man'], resolve)
+      },
+      { 
+        //图片管理
+        path: '/system-img/:page?/:order?',
+        component: resolve => require(['@/components/column-6/system-img/system-img'], resolve)
+      },
     ]
   },
   {
