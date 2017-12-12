@@ -14,4 +14,5 @@ npm run build
 npm run build --report
 
 ```
- 
+测试地址 (账号密码随意)
+www.weilot.com/201712/test/index.html 
