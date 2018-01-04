@@ -1,10 +1,13 @@
 <template>
     <el-container class="adduser" v-loading='loading'>
-        <el-header>
-            <div class="tabs-title">
+        <el-header class="gr-header">
+            <div class="tabs-title grid">
                 <ul class="tabs-title-ul">
                     <li v-for="(tab,index) in nav" :key="index" :class="{active:tab.active}" @click='changeList(index)'><i :class="tab.icon"></i> {{tab.title}}</li>
                 </ul>
+            </div>
+            <div class="grid-content grid">
+                <el-date-picker v-model="value02" @change='selectChange' value-format="yyyy-MM" format="yyyy-MM" :editable="false" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" unlink-panels> </el-date-picker>
             </div>
         </el-header>
         <el-main>
@@ -36,9 +39,9 @@
                 </el-form>
             </div>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="banVideo">确 定</el-button>
-            </span>
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="banVideo">确 定</el-button>
+                </span>
         </el-dialog>
     </el-container>
 </template>
@@ -56,14 +59,14 @@
                         tag: 'on',
                         icon: ''
                     },
-                    {
-                        title: '已禁视频',
-                        active: false,
-                        tag: 'off',
-                        icon: 'el-icon-remove-outline'
-                    },
+                    // {
+                    //     title: '已禁视频',
+                    //     active: false,
+                    //     tag: 'off',
+                    //     icon: 'el-icon-remove-outline'
+                    // },
                 ],
-                videos: [ ],
+                videos: [],
                 modalConf: {
                     class: false,
                     resource: '内容不良',
@@ -74,8 +77,14 @@
                     currentPage: 1, //当前页
                     pageSize: 9 //每页条数
                 },
-                 value:{
-                    resource:'内容不良'
+                value: {
+                    resource: '内容不良'
+                },
+                value02:'',
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() > Date.now() - 8.64e6
+                    }
                 },
             }
         },
@@ -95,6 +104,15 @@
                         page: 1
                     }
                 });
+            },
+            selectChange(val) { //时间选择
+                let data = {
+                    startDate: val[0],
+                    endDate: val[1],
+                    page: 1,
+                };
+                // this.pageInit(data,res=>{});
+                // console.log(this.value)
             },
             getVideoInfo() { //获取视频列表
                 //   console.log(1);
@@ -144,15 +162,15 @@
                 }, 1000);
             },
             watchRouter() {
-                let tag = this.$route.params.tag;
-                this.nav.map((v, k) => {
-                    v.active = false;
-                    if (tag === v.tag) {
-                        v.active = true;
-                    }
-                })
+                // let tag = this.$route.params.tag;
+                // this.nav.map((v, k) => {
+                //     v.active = false;
+                //     if (tag === v.tag) {
+                //         v.active = true;
+                //     }
+                // })
                 this.getVideoInfo();
-                tag == 'off' ? this.modalConf.class = true : this.modalConf.class = false
+                // tag == 'off' ? this.modalConf.class = true : this.modalConf.class = false
             },
             banVideo() { //限制视频
                 this.dialogVisible = false;
@@ -179,6 +197,12 @@
 </script>
 
 <style scoped lang="less">
+.gr-header{
+display: flex;display: -webkit-flex;
+.grid{flex: 1}
+.grid-content{display: flex;display: -webkit-flex;align-items: center}
+}
+
     .tabs-title {
         .tabs-title-ul {
             display: flex;

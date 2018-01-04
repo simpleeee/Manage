@@ -101,7 +101,7 @@
                 let id = 0;
                 if (data.column.label == '昵称') {
                     id = parseInt(data.row.id);
-                   this.$router.push({path: '/user-info/'+id+'/user-video/leitai/1'})  
+                   this.$router.push({path: '/user-info/'+id})  
                 }
                 
             },

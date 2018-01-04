@@ -31,7 +31,7 @@
                 </el-row>
             </div>
             <div class="bottom">
-                <tablecontent :tableData="tableData" :tableHead="tableHead" :tabSet="tabSet" :page="page" @childclick="childclick" @tableSet="tableSet" @handleCurrentChange="handleCurrentChange"></tablecontent>
+                <tablecontent :tableData="tableData" :tableHead="tableHead"  :page="page" @childclick="childclick" @handleCurrentChange="handleCurrentChange"></tablecontent>
             </div>
         </el-main>
     </el-container>
@@ -80,16 +80,8 @@ import tablecontent from '../../table/table'
                         disabled: false
                     },
                 ],
-                 tabSet: [{
-                        lable: '编辑',
-                    },
-                    {
-                        lable: '权限',
-                    },
-                    {
-                        lable: '冻结',
-                    }
-                ],
+                //  tabSet: [
+                // ],
                 tableHead: [{
                     prop: 'id',
                     label: '账号ID',

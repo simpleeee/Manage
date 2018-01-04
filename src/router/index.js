@@ -72,14 +72,14 @@ const routes = [{
         path: '/user-info/:id',
         component: resolve => require(['@/components/column-2/user-info/user-info'], resolve),
         children:[
-          {
-            path:'user-video/:tag?/:page?',
-            component: resolve => require(['@/components/column-2/user-video/user-video'], resolve),
-          },
-          {
-            path:'user-pay/:tag?',
-            component: resolve => require(['@/components/column-2/user-pay/user-pay'], resolve),
-          }
+          // {
+          //   path:'user-video/:tag?/:page?',
+          //   component: resolve => require(['@/components/column-2/user-video/user-video'], resolve),
+          // },
+          // {
+          //   path:'user-pay/:tag?',
+          //   component: resolve => require(['@/components/column-2/user-pay/user-pay'], resolve),
+          // }
         ]
       },
       {

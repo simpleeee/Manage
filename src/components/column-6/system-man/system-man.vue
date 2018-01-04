@@ -69,13 +69,13 @@
                         icon: '',
                         type:'nav'
                     },
-                    {
-                        title: '举报申诉',
-                        active: false,
-                        block: 'appeal',
-                        icon: 'el-icon-remove-outline',
-                        type:'nav'
-                    },
+                    // {
+                    //     title: '举报申诉',
+                    //     active: false,
+                    //     block: 'appeal',
+                    //     icon: 'el-icon-remove-outline',
+                    //     type:'nav'
+                    // },
                 ],
                 tags:[{title:'擂台',active:true,tag:'leitai',type:'tag'},
                      {title:'武林',active:false,tag:'wulin',type:'tag'},

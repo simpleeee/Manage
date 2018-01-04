@@ -30,12 +30,7 @@
                 routerPath: '/account-ban/',//冻结列表
                 loading: false,
                 search: '',
-                tabSet: [{
-                        lable: '编辑',
-                    },
-                    {
-                        lable: '权限',
-                    },
+                tabSet: [
                     {
                         lable: '恢复',
                     }
@@ -93,17 +88,6 @@
                  let userid = data.row.id;
                 switch (id) {
                     case 0:
-                        this.$router.push({
-                            path: '/adduser/' + userid
-                        }); //编辑
-                        break;
-                    case 1:
-                     this.$router.push({
-                            path: '/edituser/' + userid
-                        }); //修改权限
-                        break;
-                    case 2:
-                        // console.log(data.row.id)
                         const h = this.$createElement;
                         let text = h('p', ['正在对 ', h('span', {
                             style: 'color: red'

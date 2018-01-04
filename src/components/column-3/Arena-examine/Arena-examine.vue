@@ -5,7 +5,7 @@
                 <el-col :span="4">
                     <div class="grid-content search-add">
                         <el-input v-model="search" @keyup.enter.native="doSraech" placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
-                        <div class="add-new" @click="addNewtag"><i class="el-icon-plus"></i></div>
+                        <!-- <div class="add-new" @click="addNewtag"><i class="el-icon-plus"></i></div> -->
                     </div>
                 </el-col>
                 <el-col :span="6">
@@ -83,7 +83,7 @@
                 let id = 0;
                 if (data.column.label == '发起者') {
                     id = parseInt(data.row.userid)  //获取当前发起者ID
-                    this.$router.push({path: '/user-info/'+id+'/user-video/leitai/1'})  
+                    this.$router.push({path: '/user-info/'+id})  
                 }
 
                 

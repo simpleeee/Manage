@@ -8,65 +8,65 @@
         <el-main>
             <div class="top">
                 <el-row>
-                    <el-col :span="8">
+                    <el-col :span="6">
                         <div class="info-text">
                             <span>姓名:</span>
                             <span>{{accessInfo.name}}</span>
                         </div>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="6">
                         <div class="info-text">
                             <span>账号ID:</span>
                             <span>{{accessInfo.id}}</span>
                         </div>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="6">
                         <div class="info-text">
                             <span>直接上级:</span>
                             <span>{{accessInfo.leader}}</span>
                         </div>
                     </el-col>
-                </el-row>
-
-                <el-row>
-                    <el-col :span="8">
+                     <el-col :span="6">
                         <div class="info-text">
                             <span>账号身份:</span>
                             <span>{{accessInfo.class}}</span>
                         </div>
                     </el-col>
-                    <el-col :span="8">
+                </el-row>
+
+                <el-row>
+                    <el-col :span="6">
                         <div class="info-text">
                             <span>联系方式:</span>
                             <span>{{accessInfo.tel}}</span>
                         </div>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="6">
                         <div class="info-text">
                             <span>上级身份:</span>
                             <span>{{accessInfo.leaderclass}}</span>
                         </div>
                     </el-col>
-                </el-row>
-
-                 <el-row>
-                    <el-col :span="8">
+                     <el-col :span="6">
                         <div class="info-text">
                             <span>性别:</span>
                             <span>{{accessInfo.sex}}</span>
                         </div>
                     </el-col>
-                    <el-col :span="8">
+                </el-row>
+
+                <!--  <el-row>
+                    <el-col :span="6">
                         <div class="info-text">
                             <span>权限:</span>
                             <span>{{accessInfo.access}}</span>
                         </div>
                     </el-col>
-                </el-row>
+                </el-row> -->
 
             </div>
             <div class="bottom">
-                <tablecontent :tableData="tableData" :tableHead="tableHead" :tabSet="tabSet" :page="page" @handleCurrentChange="handleCurrentChange"></tablecontent>
+                <!-- <tablecontent :tableData="tableData" :tableHead="tableHead" :tabSet="tabSet" :page="page" @handleCurrentChange="handleCurrentChange"></tablecontent> -->
             </div>
         </el-main>
     </el-container>

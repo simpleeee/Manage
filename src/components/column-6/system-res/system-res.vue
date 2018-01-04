@@ -2,7 +2,7 @@
     <el-container class="adduser system-res">
         <el-main>
             <el-tabs v-model="activeName">
-                <el-tab-pane label="群发管理" name="first">
+                <!-- <el-tab-pane label="群发管理" name="first">
                     <el-form :inline="true" :model="send" :rules="rules" ref="ruleForm" class="demo-ruleForm">
                         <el-row>
                             <el-col :span="18">
@@ -37,7 +37,7 @@
                     <div class="table-box" v-loading="loading">
                         <tablecontent :tableData="tableData" :tableHead="tableHead" :tabSet="tabSet" :page="page" @handleCurrentChange="handleCurrentChange" @tableSet='tableSet' @childclick='childclick'></tablecontent>
                     </div>
-                </el-tab-pane>
+                </el-tab-pane> -->
                 <el-tab-pane label="问题反馈" name="second">
                      <el-date-picker v-model="value" @change='selectChange' value-format="yyyy-MM" format="yyyy-MM" :editable="false" type="daterange" range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions" unlink-panels> </el-date-picker>
                     <div class="table-box" v-loading="loading">
@@ -55,7 +55,7 @@
         data() {
             return {
                 loading: false,
-                activeName: 'first',
+                activeName: 'second',
                 value:'',
                 send: {
                     text: '',

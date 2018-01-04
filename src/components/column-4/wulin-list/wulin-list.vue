@@ -97,7 +97,7 @@
                 let id = 0;
                 if (data.column.label == '发起者') {
                     id = parseInt(data.row.userid)  //获取当前发起者ID
-                    this.$router.push({path: '/user-info/'+id+'/user-video/leitai/1'})  
+                    this.$router.push({path: '/user-info/'+id})  
                 }else if(data.column.label == '主题内容'){
                     id = parseInt(data.row.id)  //获取
                      this.$router.push({path: '/Arena-info/wulin/'+id+'/Arena-video-topic/Y/1'})  

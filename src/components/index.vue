@@ -74,7 +74,7 @@
           {icon:"icon-leitai",title:"擂台管理",children:[
             {title:"栏目分析",url:"/Arena"},
             {title:"待审列表",url:"/Arena-examine"},
-            {title:"禁止列表",url:"/Arena-ban"},
+            {title:"停用列表",url:"/Arena-ban"},
             {title:"话题列表",url:"/Arena-topic"},
             {title:"视频审核",url:"/Arena-video/Arena/on/1"},]
           },
@@ -86,7 +86,7 @@
           },
           {icon:"icon-yun",title:"风云管理",children:[
             {title:"栏目分析",url:"/fengyun"},
-            {title:"标签库",url:"/fengyun-tag"},
+            {title:"人物标签统计",url:"/fengyun-tag"},
             {title:"视频审核",url:"/Arena-video/fengyun/on/1"}]
           },
            {icon:"icon-xitong",title:"系统管理",url:"#",children:[

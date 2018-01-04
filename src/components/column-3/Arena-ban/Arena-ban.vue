@@ -86,7 +86,7 @@
                 let id = 0;
                 if (data.column.label == '发起者') {
                     id = parseInt(data.row.userid)  //获取当前发起者ID
-                   this.$router.push({path: '/user-info/'+id+'/user-video/leitai/1'})  
+                   this.$router.push({path: '/user-info/'+id})  
                 }
                 if (data.column.label == '话题内容') {
                     id = parseInt(data.row.id)  //获取id

@@ -1,4 +1,4 @@
-const host="http://api.test.com/";
+const host="http://prl.weilot.com/";
 const serviceModule = {  
     login: {  //登录
       url: host+'home/index/login',  

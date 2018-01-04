@@ -126,7 +126,7 @@
                 if (data.column.label == '发起者') {
                     id = parseInt(data.row.userid);
                     this.$router.push({
-                        path: '/user-info/' + id + '/user-video/leitai/1'
+                        path: '/user-info/' + id
                     })
                 }
             },

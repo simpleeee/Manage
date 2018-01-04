@@ -24,7 +24,7 @@
                 </el-col>
             </el-row>
         </el-main>
-        <el-header>
+        <!-- <el-header>
             <div class="upload-title gray"><span class="tword">数据设置</span></div>
         </el-header>
         <el-main>
@@ -37,7 +37,7 @@
                 </el-col>
                 <el-col :span="12" class="red">{{values.rnb}} 辣椒币 = 80 RNB</el-col>
             </el-row>
-            <!-- <div class="st" style="width:100px;text-align:right;padding:0 12px 0 0;line-height: 40px">奖励设置:</div> -->
+
             <el-row :gutter="10">
                         <el-col :span="5">
                             <el-form-item label="发布操作+ " prop="release">
@@ -64,7 +64,7 @@
                  <el-button type="danger" @click="submit('ruleForm')">确定保存</el-button>
             </div>
             </el-form>
-        </el-main>
+        </el-main> -->
     </el-container>
 </template>
 
